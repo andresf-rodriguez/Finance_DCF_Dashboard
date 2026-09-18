@@ -1,0 +1,37 @@
+{
+  "ticker": "MSFT",
+  "filed": "2026-07-29",
+  "cierre": "2026-06-30",
+  "fuentes": {
+    "Ingresos": [
+      "RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "CFO": [
+      "NetCashProvidedByUsedInOperatingActivities"
+    ],
+    "Capex": [
+      "PaymentsToAcquirePropertyPlantAndEquipment"
+    ],
+    "Arrendamientos financieros": [
+      "FinanceLeasePrincipalPayments"
+    ],
+    "SBC": [
+      "ShareBasedCompensation"
+    ],
+    "Caja": [
+      "CashAndCashEquivalentsAtCarryingValue"
+    ],
+    "Valores negociables": [
+      "ShortTermInvestments"
+    ],
+    "Deuda": [
+      "LongTermDebt"
+    ],
+    "Acciones diluidas": [
+      "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+  },
+  "aproximados": [],
+  "ajustes": [],
+  "avisos": []
+}

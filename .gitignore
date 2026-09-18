@@ -1,0 +1,20 @@
+# Entorno y herramientas
+venv/
+__pycache__/
+.agents/
+.claude/
+.DS_Store
+
+# Secretos (usa .streamlit/secrets.toml.example como plantilla)
+.streamlit/secrets.toml
+
+# Archivos generados por extraer_datos.py (plantilla_DCF.xlsx no se excluye)
+datos_*.csv
+datos_*.json
+DCF_*.xlsx
+!datos_AAPL.csv
+!datos_AAPL.json
+!datos_MSFT.csv
+!datos_MSFT.json
+!datos_META.csv
+!datos_META.json

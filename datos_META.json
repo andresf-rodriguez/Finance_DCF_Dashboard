@@ -1,0 +1,38 @@
+{
+  "ticker": "META",
+  "filed": "2026-01-29",
+  "cierre": "2025-12-31",
+  "fuentes": {
+    "Ingresos": [
+      "RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "CFO": [
+      "NetCashProvidedByUsedInOperatingActivities"
+    ],
+    "Capex": [
+      "PaymentsToAcquirePropertyPlantAndEquipment"
+    ],
+    "Arrendamientos financieros": [
+      "FinanceLeasePrincipalPayments"
+    ],
+    "SBC": [
+      "ShareBasedCompensation"
+    ],
+    "Caja": [
+      "CashAndCashEquivalentsAtCarryingValue"
+    ],
+    "Valores negociables": [
+      "MarketableSecuritiesCurrent"
+    ],
+    "Deuda": [
+      "LongTermDebt",
+      "LongTermDebtNoncurrent"
+    ],
+    "Acciones diluidas": [
+      "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+  },
+  "aproximados": [],
+  "ajustes": [],
+  "avisos": []
+}

@@ -1,0 +1,35 @@
+{
+  "ticker": "AAPL",
+  "filed": "2025-10-31",
+  "cierre": "2025-09-27",
+  "fuentes": {
+    "Ingresos": [
+      "RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "CFO": [
+      "NetCashProvidedByUsedInOperatingActivities"
+    ],
+    "Capex": [
+      "PaymentsToAcquirePropertyPlantAndEquipment"
+    ],
+    "SBC": [
+      "ShareBasedCompensation"
+    ],
+    "Caja": [
+      "CashAndCashEquivalentsAtCarryingValue"
+    ],
+    "Valores negociables": [
+      "MarketableSecuritiesCurrent"
+    ],
+    "Deuda": [
+      "LongTermDebt",
+      "LongTermDebtNoncurrent"
+    ],
+    "Acciones diluidas": [
+      "WeightedAverageNumberOfDilutedSharesOutstanding"
+    ]
+  },
+  "aproximados": [],
+  "ajustes": [],
+  "avisos": []
+}
