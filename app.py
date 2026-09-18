@@ -73,8 +73,8 @@ def excel_dcf(ticker: str, df: pd.DataFrame, rellenados: list, precio: float) ->
     datos = wb["Datos"]
     datos["B1"] = ticker
     datos["B2"] = date.today().isoformat()
-    datos["C2"] = ("El precio de Supuestos!B6 es el de esta fecha de descarga. El resto de supuestos de esa hoja "
-                   "siguen siendo ejemplos genéricos: revísalos antes de sacar conclusiones.")
+    datos["C2"] = ("El precio de Supuestos!B6 es el de esta fecha de descarga. Crecimiento, beta, prima, coste de deuda, "
+                   "impuestos, g y margen de seguridad son valores genéricos: revísalos antes de sacar conclusiones.")
     for j, anio in enumerate(ultimos.columns):
         datos.cell(row=5, column=2 + j, value=int(anio))
         for dato, fila in FILAS_EXCEL.items():
@@ -172,8 +172,8 @@ def punto_de_partida(etiqueta, valor_10k, clave, anio):
 # ---------- Aviso (primer elemento de la página; se muestra en todos los casos, tambien si la carga falla) ----------
 st.warning(
     "**Herramienta educativa. No es asesoramiento financiero ni una recomendación de compra o venta.**\n\n"
-    "- Los supuestos del DCF (crecimiento, márgenes, WACC, g) son **ejemplos genéricos, iguales para toda empresa**: "
-    "cámbialos antes de sacar conclusiones.\n"
+    "- Los márgenes salen del histórico de la empresa, pero **el crecimiento y la tasa de descuento (WACC, g) son "
+    "valores genéricos**: revísalos antes de sacar conclusiones.\n"
     "- Un DCF es **muy sensible al WACC y al crecimiento perpetuo (g)**: un punto de diferencia cambia mucho el valor.\n"
     "- Datos: SEC EDGAR (10-K). Precio: Yahoo Finance, del momento de la consulta. Verifica en la fuente original."
 )
@@ -472,8 +472,8 @@ with tab_dcf:
     r2.metric("Precio con margen de seguridad", fmt_p(con_mos))
     r3.metric("Valor de la empresa", fmt_b(ev))
     r4.metric("% que viene del valor terminal", f"{vp_tv/ev:.0%}")
-    st.caption("⚠️ Este valor sale de los supuestos de arriba (crecimiento, márgenes, WACC, g), que son ejemplos "
-               "genéricos hasta que los cambies tú. No lo uses sin haberlos revisado.")
+    st.caption("⚠️ Este valor sale de los supuestos de arriba, que en parte son valores genéricos (crecimiento, WACC, g) "
+               "hasta que los revises tú. No lo uses sin haberlos revisado.")
     if vp_tv / ev > 0.75:
         st.warning("Más del 75% del valor depende del valor terminal: el resultado es muy sensible al WACC y al crecimiento perpetuo.")
     if precio <= con_mos:
