@@ -19,6 +19,17 @@ from openpyxl import load_workbook
 
 st.set_page_config(page_title="Valoración de empresas", page_icon="📊", layout="wide")
 
+# Rutas absolutas respecto a este archivo: la app no depende de la carpeta desde la que se lance streamlit
+BASE = os.path.dirname(os.path.abspath(__file__))
+EXTRACTOR = os.path.join(BASE, "extraer_datos.py")
+PLANTILLA = os.path.join(BASE, "plantilla_DCF.xlsx")
+
+
+def ruta_datos(ticker: str, ext: str) -> str:
+    """datos_{ticker}.csv / .json junto a app.py (donde los escribe extraer_datos.py con cwd=BASE)."""
+    return os.path.join(BASE, f"datos_{ticker}.{ext}")
+
+
 # ---------- Utilidades ----------
 METRICAS = {
     "Flujo operativo (OCF)": "CFO",
@@ -47,7 +58,6 @@ def entorno_sec():
     return env
 
 
-PLANTILLA = "plantilla_DCF.xlsx"
 FILAS_EXCEL = {  # fila de la hoja "Datos" de la plantilla para cada concepto
     "Ingresos": 6, "CFO": 7, "Capex": 8, "Arrendamientos financieros": 9, "SBC": 10,
     "Caja": 11, "Valores negociables": 12, "Deuda": 13, "Acciones diluidas": 14,
@@ -84,14 +94,14 @@ def excel_dcf(ticker: str, df: pd.DataFrame, rellenados: list, precio: float) ->
 def cargar(ticker: str):
     """Devuelve (df, meta). meta viene de datos_{ticker}.json (fecha del último 10-K,
     años aproximados, reexpresiones). Si el JSON no existe, meta queda vacío."""
-    ruta = f"datos_{ticker}.csv"
+    ruta = ruta_datos(ticker, "csv")
     if not os.path.exists(ruta):
-        subprocess.run([sys.executable, "extraer_datos.py", ticker], check=True, capture_output=True, env=entorno_sec())
+        subprocess.run([sys.executable, EXTRACTOR, ticker], check=True, capture_output=True, env=entorno_sec(), cwd=BASE)
     df = pd.read_csv(ruta, index_col=0)
     df.columns = [int(c) for c in df.columns]
     meta = {}
-    if os.path.exists(f"datos_{ticker}.json"):
-        with open(f"datos_{ticker}.json") as f:
+    if os.path.exists(ruta_datos(ticker, "json")):
+        with open(ruta_datos(ticker, "json")) as f:
             meta = json.load(f)
     # Años sin acciones diluidas: usar el año válido más cercano (y avisar después)
     acc = df.loc["Acciones diluidas"]
@@ -168,7 +178,7 @@ if not re.fullmatch(r"[A-Z0-9.\-]{1,6}", ticker):
     st.stop()
 if st.sidebar.button("🔄 Actualizar datos desde la SEC"):
     with st.spinner("Descargando de la SEC..."):
-        r = subprocess.run([sys.executable, "extraer_datos.py", ticker], capture_output=True, text=True, env=entorno_sec())
+        r = subprocess.run([sys.executable, EXTRACTOR, ticker], capture_output=True, text=True, env=entorno_sec(), cwd=BASE)
     st.cache_data.clear()
     for k in [k for k in st.session_state if k.startswith(("base_", "ing_base_"))]:
         del st.session_state[k]  # los puntos de partida editados vuelven al nuevo 10-K
@@ -227,7 +237,7 @@ if not precio_auto:
 
 # ---------- Descargar Excel (se construye en memoria solo al pulsar) ----------
 if not os.path.exists(PLANTILLA):
-    st.sidebar.caption(f"No encuentro {PLANTILLA} junto a app.py, así que no se puede descargar el Excel del DCF.")
+    st.sidebar.caption(f"No encuentro {os.path.basename(PLANTILLA)} junto a app.py, así que no se puede descargar el Excel del DCF.")
 else:
     pocos_anios = df.shape[1] < 5
     st.sidebar.download_button(
